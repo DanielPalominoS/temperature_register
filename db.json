@@ -1,0 +1,28 @@
+{
+  "todos": [
+    {
+      "id": 0,
+      "name": "Daniel Palomino",
+      "cedula": 0,
+      "rfid_id": 0
+    },
+    {
+      "id": 1,
+      "name": "Santiago Suarez",
+      "cedula": 1,
+      "rfid_id": 1
+    },
+    {
+      "name": "nn nn",
+      "cedula": 3,
+      "rfid_id": 14,
+      "id": 2
+    },
+    {
+      "name": "agente",
+      "cedula": 111,
+      "rfid_id": 4190964,
+      "id": 3
+    }
+  ]
+}

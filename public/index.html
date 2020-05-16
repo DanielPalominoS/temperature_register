@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+  <link href="css/app.css"
+        rel="stylesheet">
+  <!-- CSRF Token -->
+  <!--meta name="csrf-token" content="tPCuxzlA5P9OoK7Hl8ICJbnNrDgrtj1pEXw9iVLv"-->
+  <title>Millenium BPO</title>
+
+
+
+  <script>
+    settings = {
+      "url_server": "https://cvlogin.free.beeceptor.com/login",
+      "base_server": "http://localhost:3000",
+      "redirect": "https://wa.me/57300000000",
+      "debug": true
+    }
+  </script>
+
+  <script src="js/app.js"
+          defer></script>
+
+
+
+</head>
+
+<!-- body  -->
+
+<body class="bg-body ">
+  <div id="app">
+
+    <!-- card -->
+    <div class="card-div">
+      <div class="card">
+
+        <!-- card header-->
+        <div class="card-header">
+
+          <img src="images/cv_logo_4.png"
+               class="img-fluid col-6 col-xl-6 col-lg-6 col-sm-12 col-md-6  mx-auto d-block mb-2">
+
+          Ingresar a mi cuenta
+        </div>
+
+        <!-- card body-->
+        <div class="card-body">
+
+          <!-- Form  -->
+          <!--form class="form" onsubmit="return window.onFormSubmit(event)"-->
+          <!--form class="form" onsubmit="return onFormSubmit(event)"-->
+          <form class="form"
+                v-on:submit.prevent="onFormSubmit">
+
+            <!-- Rfid Id -->
+            <div class="input-group form-group ">
+              <input v-focus
+                     v-model="user_rfid"
+                     type="numeric"
+                     class="form-control "
+                     placeholder="RFID"
+                     v-on:change="verifyUser"
+                     required>
+            </div>
+            <!-- Register data -->
+            <div id="register_inputs"
+                 v-if="!user_exists">
+              <div class="input-group form-group ">
+                <input id="reg_name"
+                       v-focus
+                       v-model="name"
+                       type="text"
+                       class="form-control"
+                       placeholder="Nombre"
+                       required> </div>
+
+              <div class="input-group form-group ">
+                <input v-model="user_id"
+                       type="numeric"
+                       class="form-control"
+                       placeholder="Documento de identidad"
+                       required>
+              </div>
+              <div class="align-items-center remember mx-auto mb-3">
+                <input type="checkbox"
+                       id="terms_checkbox"
+                       v-model="checked">
+                <label for="terms_checkbox">
+                  <!--De conformidad con lo definido por la Ley 1581 de 2012, el Decreto Reglamentario 1377 de 2013, la Circular Externa 002 de 2015 expedida por la Superintendencia de Industria y Comercio Trataremos sus datos personales de acuerdo a la ley,  nuestra Política de Tratamiento de datos, se encuentra publicada en https://millenium.com.co/politica-de-tratamiento-de-datos/-->
+                  He leido y acepto los terminos de la
+                  <a href="https://millenium.com.co/politica-de-tratamiento-de-datos/"
+                     class="btn-link"
+                     target="_blank">
+                    Política de tratamiento de datos
+                  </a>.
+                </label>
+              </div>
+            </div>
+
+            <!-- Temperatura -->
+            <div class="input-group form-group">
+              <input v-model="temperature"
+                     type="numeric"
+                     class="form-control"
+                     placeholder="Temperatura"
+                     required>
+            </div>
+
+
+            <!-- SEND DATA BUTTON -->
+            <div class="form-group ">
+              <button type="submit"
+                      class="form-submit">
+                Enviar datos
+              </button>
+              <!--i class="fab fa-whatsapp"></i-->
+            </div>
+
+          </form>
+
+          <div><button class="btn btn-lg btn-primary"
+                    v-on:click="user_exists = !user_exists">Hide</button></div>
+
+
+
+
+        </div>
+
+        <!-- card footer-->
+        <div class="card-footer">
+          Administrado por
+          <a href="https://millenium.com.co"
+             class="btn-link">
+            Millenium BPO
+          </a>
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade"
+         id="waitingModal"
+         data-backdrop="static"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="waitingModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered "
+           role="document">
+        <div class="modal-content">
+
+
+          <!-- Modal Header -->
+          <div class="modal-header border-0 text-primary font-weight-bold mx-center">
+
+            <!-- 
+            <h5 class="modal-title" id="waitingModalLabel"></h5> 
+          -->
+            <button v-if="state == general_states['error']  "
+                    type="button"
+                    class="close float-left"
+                    data-dismiss="modal"
+                    aria-label="Close">
+              <span class="text-primary"
+                    aria-hidden="true">&times;</span>
+          </div>
+
+          </button>
+
+
+          <!-- Modal Body -->
+          <div class="modal-body">
+
+
+            <div v-if="state == general_states['error']  ">
+
+              <div class="alert alert-danger"
+                   role="alert">
+                Usuario o constraseña inválida
+              </div>
+
+            </div>
+
+
+            <div v-if="state == general_states['ok'] "
+                 class="text-center">
+              <div class="alert alert-primary "
+                   role="alert">
+                Hemos validado tu información, en instantes serás redirigido a Whatsapp
+              </div>
+              <div class="spinner-border"
+                   style="width: 3rem; height: 3rem;"
+                   role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+
+            <div v-if="state == general_states['waiting']  "
+                 class="text-center">
+              <div class="spinner-border"
+                   style="width: 3rem; height: 3rem;"
+                   role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <!-- Modal Footer -->
+          <div class="modal-footer border-0">
+            <div v-if="state == general_states['error']  ">
+              <button type="button"
+                      class="btn btn-danger"
+                      data-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+</body>
+
+</html>
