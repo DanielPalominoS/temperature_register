@@ -45,7 +45,7 @@
           <img src="images/cv_logo_4.png"
                class="img-fluid col-6 col-xl-6 col-lg-6 col-sm-12 col-md-6  mx-auto d-block mb-2">
 
-          Ingresar a mi cuenta
+               Control de acceso <br>COVID-19
         </div>
 
         <!-- card body-->
@@ -61,6 +61,7 @@
             <div class="input-group form-group ">
               <input v-focus
                      v-model="user_rfid"
+                     ref="user_rfid"
                      type="numeric"
                      class="form-control "
                      placeholder="RFID"
@@ -194,15 +195,14 @@
 
             <div v-if="state == general_states['ok'] "
                  class="text-center">
-              <div class="alert alert-primary "
+              <!--<div class="alert alert-primary "
                    role="alert">
-                Hemos validado tu información, en instantes serás redirigido a Whatsapp
               </div>
               <div class="spinner-border"
                    style="width: 3rem; height: 3rem;"
                    role="status">
                 <span class="sr-only">Loading...</span>
-              </div>
+              </div>-->
             </div>
 
 
