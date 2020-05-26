@@ -1,0 +1,88 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables  (Colors, fonts )
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+// Icons Library -> https://fontawesome.com/icons
+//$fa-font-path: "../public/fonts";
+//@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+//@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+//@import '~@fortawesome/fontawesome-free/scss/brands.scss';
+//@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+//@import "node_modules/font-awesome/scss/font-awesome.scss";
+ 
+
+.text-white-75 {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+
+body{
+ // background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("/img/bg-masthead.jpg") no-repeat center center fixed;
+  
+
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+}
+
+
+.bg-body{
+  background-color: $cv_light_gray;
+}
+
+.card-div{
+  @extend .container;
+  @extend .col-xl-5;
+  @extend .col-lg-7;
+  @extend .mt-5;
+  @extend .pt-5;        
+  @extend .text-center;        
+
+}
+
+.card{  
+   border: 0;
+   padding-top: 40px;
+   border-radius: 1px;
+
+}
+
+.form{
+  @extend .mx-auto;
+}
+
+.form-control {  
+  @extend .text-center;
+}
+
+.card-header{
+    @extend .bg-white;    
+    @extend .text-primary;
+    @extend .font-weight-bold;
+    @extend .border-0;
+    @extend .h3;
+
+}
+
+
+.card-footer{
+  @extend .bg-white;    
+  @extend .text-muted;
+  @extend .border-0;
+}
+
+
+.form-submit{
+  @extend .btn;
+  @extend .btn-primary; 
+  @extend .font-weight-bold; 
+
+}

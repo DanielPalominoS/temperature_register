@@ -1,0 +1,7 @@
+node_modules
+fonts
+public/css/*
+public/js/*
+habfab.code-workspace
+js.code-workspace
+*.zip
