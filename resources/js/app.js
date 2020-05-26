@@ -20,9 +20,10 @@ Vue.directive('focus', {
 })
 
 //Consts
-const baseURL = "http://localhost:3000"
+//const baseURL = "http://localhost:3004"
+const baseURL = "http://192.168.0.11:3004"
 //const baseURL = "http://192.168.222.150:5000"
-
+//
 
 // Implementing Vue JS
 
@@ -39,23 +40,25 @@ const app = new Vue({
         "user_rfid": "",
         "name": "",
         "user_id": "",
-        "checked": false,
+        //"checked": false,
         "temperature": "",
         "user_exists": true,
         "error_messages": []
     },
     methods: {
-
+        
         /**
          * When user push submit button, this method will be executed
          */
         onFormSubmit: function (submitEvent) {
 
             // show modal  
-            /*this.state = this.general_states["waiting"]
-            $("#waitingModal").modal("show");*/
+            this.state = this.general_states["waiting"]
+            $("#waitingModal").modal("show");
 
             try {
+                // validate data                           
+                //validate_data(data)
                 if (this.user_exists == false) {
                     //if user does not exist his data is publish to the user db
                     console.log("reg user")
@@ -67,13 +70,14 @@ const app = new Vue({
                     "user_id": this.user_id,
                     "temperature": this.temperature,
                 }
-
-                // validate data                           
-                //validate_data(data)
+                var url = baseURL + "/LogTemp"
+                url = settings["url_server"]
+                
                 console.log("publish")
 
                 // making Post to setted url
-                addTemperature(settings["url_server"], data, this.onResponsePublishTemperature)
+                addTemperature(url, data, this.onResponsePublishTemperature)
+                //addTemperature(settings["url_server"], data, this.onResponsePublishTemperature)
 
                 // redirecting
                 //redirect(settings["redirect"])
@@ -82,10 +86,13 @@ const app = new Vue({
                 console.log("error")
                 this.onError(error)
             }
+
+            
             this.user_rfid = ""
             this.name = ""
             this.user_id = ""
             this.temperature = ""
+            this.user_exists=true
             //$("#waitingModal").modal("hide");
             //this.force-this.$forceUpdate()
             //location.reload()
@@ -102,20 +109,38 @@ const app = new Vue({
             PRINT("response is")
             PRINT(response)
             if (response.data.length == 0) {
+                PRINT("User not registered")
                 //alert("Primero debe registrar su usuario")
                 this.user_exists = false;
             }
             else {
+                PRINT("User already registered")
                 this.name = response.data[0].name
                 this.user_id = response.data[0].cedula
+                //this.name = response.data.name                
+                //this.user_id = response.data.cedula
                 this.user_exists = true;
+                PRINT(this.name)
+                PRINT(this.cedula)
                 /*this.$nextTick(() => {
                     this.$refs.name.$el.focus();
                     this.$refs.name.$el.select();
                 })*/
+
             }
             //this.state = this.general_states["waiting"]
-            //$("#waitingModal").modal("hide");
+            /*setTimeout(function () {
+                $("#waitingModal").modal("hide");
+            }, 300);*/
+            /*PRINT("hide modal")
+            if (this.user_exists) {
+                this.$nextTick(() => {
+                    this.$refs.temperature.$el.focus();
+                    this.$refs.temperature.select();
+                })
+            }*/
+
+
             //$("#waitingModal").hide();
 
         },
@@ -129,6 +154,7 @@ const app = new Vue({
             PRINT("response for publishing temperature is")
             PRINT(response)
             if (response.data.length == 0) {
+            //if (!response) {
                 //alert("Primero debe registrar su usuario")
                 PRINT("User could not be added")
             }
@@ -141,17 +167,20 @@ const app = new Vue({
         /**
             * Action when ok response
             */
-        onResponsePublishTemperature: function (response) {            
+        onResponsePublishTemperature: function (response) {
             PRINT("response for publishing new user is")
             PRINT(response)
             if (response.data.length == 0) {
+            //if (!response) {
                 //alert("Primero debe registrar su usuario")                
                 PRINT("Temperature could not be saved")
             }
             else {
                 PRINT("Temperature saved")
             }
-            // handle success
+            setTimeout(function () {
+                $("#waitingModal").modal("hide");
+            }, 300);
 
         },
 
@@ -168,14 +197,19 @@ const app = new Vue({
         * Action when rfid_id_input change
         */
         verifyUser: function (event) {
-
+            this.state = this.general_states["waiting"]
+            //$("#waitingModal").modal("show");
             var url = baseURL + "/Users?rfid_id=" + this.user_rfid
+            response_ = this.onResponseGet
             axios.get(url)
                 .then(function (response) {
-                    app.onResponseGet(response)
+                    response_(response)
                 })
                 .catch(function (error) {
                     // handle error 
+                    //this.state = this.general_states["error"]
+                    //$("#waitingModal").modal("show");
+                    PRINT("Error on getting data")
                     throw (error)
                 })
 
@@ -191,6 +225,8 @@ const app = new Vue({
                 cedula: parseInt(this.user_id),
                 rfid_id: parseInt(this.user_rfid)
             }
+            // validate data                           
+            validate_data_new_user(data)
             addUser(url, data, this.onResponsePublishNewUser)
         }
 
@@ -206,30 +242,32 @@ const app = new Vue({
  * http://validatejs.org/
  */
 
-validate_data = function (data_to_validate, invalidDataListener) {
-
+validate_data_new_user = function (data_to_validate, invalidDataListener) {
+    
 
     var constraints = {
-        "user_id": {
+        "cedula": {
             presence: { allowEmpty: false },
-            length: {
+            /*length: {
                 minimum: 1,
-                maximum: 36
-            }
+                maximum: 40
+            }*/
         },
-        "temperature": {
+        "rfid_id": {
             presence: { allowEmpty: false },
-            length: {
+            /*length: {   
                 minimum: 1,
-                maximum: 36
-            }
-
+                maximum: 40
+            }*/
         }
+        
     }
 
     error_message = validate(data_to_validate, constraints);
 
     if (error_message != null) {
+        PRINT("Invalid data")
+        PRINT(error_message)
         throw (error_message)
     }
 
@@ -261,7 +299,6 @@ getURIParam = function (param) {
  * usign axios library https://github.com/axios/axios
  */
 addTemperature = function (url, data, onResponseListener) {
-
     axios.post(url, data)
         .then(function (response) {
             // handle success

@@ -45,7 +45,7 @@
           <img src="images/cv_logo_4.png"
                class="img-fluid col-6 col-xl-6 col-lg-6 col-sm-12 col-md-6  mx-auto d-block mb-2">
 
-               Control de acceso <br>COVID-19
+          Control de acceso <br>COVID-19
         </div>
 
         <!-- card body-->
@@ -87,25 +87,13 @@
                        placeholder="Documento de identidad"
                        required>
               </div>
-              <div class="align-items-center remember mx-auto mb-3">
-                <input type="checkbox"
-                       id="terms_checkbox"
-                       v-model="checked">
-                <label for="terms_checkbox">
-                  <!--De conformidad con lo definido por la Ley 1581 de 2012, el Decreto Reglamentario 1377 de 2013, la Circular Externa 002 de 2015 expedida por la Superintendencia de Industria y Comercio Trataremos sus datos personales de acuerdo a la ley,  nuestra Política de Tratamiento de datos, se encuentra publicada en https://millenium.com.co/politica-de-tratamiento-de-datos/-->
-                  He leido y acepto los terminos de la
-                  <a href="https://millenium.com.co/politica-de-tratamiento-de-datos/"
-                     class="btn-link"
-                     target="_blank">
-                    Política de tratamiento de datos
-                  </a>.
-                </label>
-              </div>
+
             </div>
 
             <!-- Temperatura -->
             <div class="input-group form-group">
               <input v-model="temperature"
+                     ref="temperature"
                      type="numeric"
                      class="form-control"
                      placeholder="Temperatura"
@@ -126,6 +114,7 @@
 
           <div><button class="btn btn-lg btn-primary"
                     v-on:click="user_exists = !user_exists">Hide</button></div>
+          
 
 
 
@@ -187,7 +176,7 @@
 
               <div class="alert alert-danger"
                    role="alert">
-                Usuario o constraseña inválida
+                Ha ocurrido un error, vuelva a intentarlo
               </div>
 
             </div>
