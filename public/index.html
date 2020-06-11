@@ -57,10 +57,20 @@
           <form class="form"
                 v-on:submit.prevent="onFormSubmit">
 
-            <!-- Rfid Id -->
+            <!-- Sede-->
             <div class="input-group form-group ">
               <input v-focus
-                     v-model="user_rfid"
+                     v-model="sede"
+                     ref="sede"
+                     type="numeric"
+                     class="form-control "
+                     placeholder="Sede"
+                     required>
+            </div>
+
+            <!-- Rfid Id -->
+            <div class="input-group form-group ">
+              <input v-model="user_rfid"
                      ref="user_rfid"
                      type="numeric"
                      class="form-control "
@@ -69,35 +79,329 @@
                      required>
             </div>
             <!-- Register data -->
-            <div id="register_inputs"
-                 v-if="!user_exists">
+            <div id="register_inputs">
               <div class="input-group form-group ">
                 <input id="reg_name"
-                       v-focus
                        v-model="name"
                        type="text"
                        class="form-control"
                        placeholder="Nombre"
                        required> </div>
 
-              <div class="input-group form-group ">
+              <div class="input-group form-group "
+                   v-if="show_id">
                 <input v-model="user_id"
                        type="numeric"
                        class="form-control"
                        placeholder="Documento de identidad"
                        required>
               </div>
+            </div>
+            <!-- Register data -->
+            <div class="form-check ">
+              <input class="form-check-input"
+                     type="checkbox"
+                     id="idnetity_ok"
+                     v-model="idnetity_ok"
+                     checked>
+              <label class="form-check-label"
+                     for="idnetity_ok">Identidad correcta</label>
+            </div>
 
+
+            <!-- Ingreso -->
+            <div class="form-group center">
+
+              <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="ingreso_radio"
+                       id="ingresoRadio1"
+                       value=true
+                       v-model="ingreso"
+                       v-on:change="onIngresoChange"
+                       checked>
+                <label class="form-check-label"
+                       for="ingresoRadio1">Ingreso a operación</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="ingreso_radio"
+                       id="ingresoRadio2"
+                       value="false"
+                       v-model="ingreso"
+                       v-on:change="onIngresoChange">
+                <label class="form-check-label"
+                       for="ingresoRadio2">Salida de operación</label>
+              </div>
             </div>
 
             <!-- Temperatura -->
-            <div class="input-group form-group">
+            <!--<div class="input-group form-group">
               <input v-model="temperature"
                      ref="temperature"
                      type="numeric"
                      class="form-control"
                      placeholder="Temperatura"
+                     id="temperature"
                      required>
+            </div>-->
+            <div class="input group form-group ">
+              <legend class="col-form-label col-sm-12 pt-0 font-weight-bold">Seleccione el rango de temperartura.
+              </legend>
+              <div class="row">
+                <!--col1-->
+                <div class="col text-left">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="temp_selection"
+                           id="temp_selectorRadio1"
+                           value="1"
+                           v-model="temp_selector">
+                    <label class="form-check-label"
+                           for="temp_selectorRadio1">34.0-34.9</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="temp_selection"
+                           id="temp_selectorRadio4"
+                           value="4"
+                           v-model="temp_selector">
+                    <label class="form-check-label"
+                           for="temp_selectorRadio4">37.0-37.4</label>
+                  </div>
+                </div>
+                <!--col2-->
+
+                <div class="col text-left">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="temp_selection"
+                           id="temp_selectorRadio2"
+                           value="2"
+                           v-model="temp_selector">
+                    <label class="form-check-label"
+                           for="temp_selectorRadio2">35.0-35.9</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="temp_selection"
+                           id="temp_selectorRadio5"
+                           value="5"
+                           v-model="temp_selector">
+                    <label class="form-check-label"
+                           for="temp_selectorRadio5">37.5-37.7</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="temp_selection"
+                           id="temp_selectorRadio5"
+                           value="5"
+                           v-model="temp_selector">
+                    <label class="form-check-label"
+                           for="temp_selectorRadio5">38.0+</label>
+                  </div>
+
+
+                </div>
+
+                <!--col3-->
+                <div class="col text-left">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="temp_selection"
+                           id="temp_selectorRadio3"
+                           value="3"
+                           v-model="temp_selector">
+                    <label class="form-check-label"
+                           for="temp_selectorRadio3">36.0-36.9</label>
+                  </div>
+
+
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="temp_selection"
+                           id="temp_selectorRadio6"
+                           value="6"
+                           v-model="temp_selector">
+                    <label class="form-check-label"
+                           for="temp_selectorRadio6">37.8-37.9</label>
+                  </div>
+                </div>
+              </div>
+            </div>           
+
+
+            
+
+            <!-- Sintomas -->
+            <div class="input group form-group ">
+              <legend class="col-form-label col-sm-12 pt-0 font-weight-bold">Seleccione los síntomas que presenta.
+              </legend>
+              <div class="row">
+                <!--col1-->
+                <div class="col text-left">
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="ninguno"
+                           v-model="ninguno"
+                           checked>
+                    <label class="form-check-label"
+                           for="ninguno">Ninguno</label>
+                  </div>
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="fiebre"
+                           v-model="fiebre"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="fiebre">Fiebre</label>
+                  </div>
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="dolor_garganta"
+                           v-model="dolor_garganta"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="dolor_garganta">Dolor de gargante</label>
+                  </div>
+
+
+                </div>
+                <!--col2-->
+
+                <div class="col text-left">
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="congestion"
+                           v-model="congestion"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="congestion">Congestión </label>
+                  </div>
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="tos"
+                           v-model="tos"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="tos">Tos </label>
+                  </div>
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="dificultad_respirar"
+                           v-model="dificultad_respirar"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="dificultad_respirar">Dificultad para respirar</label>
+                  </div>
+                </div>
+
+                <!--col3-->
+                <div class="col text-left">
+
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="escalofrio"
+                           v-model="escalofrio"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="escalofrio">Escalofrios</label>
+                  </div>
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="fatiga"
+                           v-model="fatiga"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="fatiga">Fatiga </label>
+                  </div>
+                  <div class="form-check ">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="dolor_musculos"
+                           v-model="dolor_musculos"
+                           v-on:change="onSymptomsPicked">
+                    <label class="form-check-label"
+                           for="dolor_musculos">Dolor muscular </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ViveCovid -->
+            <div class="form-group center"
+                 v-if="show_questions">
+              <legend class="col-form-label col-sm-12 pt-0 font-weight-bold">¿Alguna persona que vive contigo presenta
+                síntomas de COVID
+                -19? </legend>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="livewithCoviderification"
+                       id="liveCovidRadio1"
+                       value="true"
+                       v-model="live_with_covid">
+                <label class="form-check-label"
+                       for="liveCovidRadio1">Si</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="liveCoviderification"
+                       id="liveCovidRadio2"
+                       value="false"
+                       v-model="live_with_covid"
+                       checked>
+                <label class="form-check-label"
+                       for="liveCovidRadio2">No</label>
+              </div>
+            </div>
+
+            <!-- ContactoCovid -->
+            <div class="form-group center"
+                 v-if="show_questions">
+              <legend class="col-form-label col-sm-12 pt-0 font-weight-bold">¿En los últimos 20 días ha tenido contacto
+                con alguna
+                persona
+                que ha sido positiva para COVID -19? </legend>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="contactCovidVerification"
+                       id="contactCovidRadio1"
+                       value="true"
+                       v-model="contact_with_covid">
+                <label class="form-check-label"
+                       for="inlineRadio1">Si</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="contactCovidVerification"
+                       id="contactCovidRadio2"
+                       value="false"
+                       v-model="contact_with_covid"
+                       checked>
+                <label class="form-check-label"
+                       for="inlineRadio2">No</label>
+              </div>
             </div>
 
 
@@ -113,8 +417,8 @@
           </form>
 
           <div><button class="btn btn-lg btn-primary"
-                    v-on:click="user_exists = !user_exists">Hide</button></div>
-          
+                    v-on:click="show_id = !show_id">Hide</button></div>
+
 
 
 
@@ -197,6 +501,19 @@
 
             <div v-if="state == general_states['waiting']  "
                  class="text-center">
+              <div class="spinner-border"
+                   style="width: 3rem; height: 3rem;"
+                   role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+
+            <div v-if="state == general_states['hight_tempereture']  "
+                 class="text-center">
+              <div class="alert alert-danger"
+                   role="alert">
+                Se ha detectado alta temperartura, debe realizarse la gestión pertinente.
+              </div>
               <div class="spinner-border"
                    style="width: 3rem; height: 3rem;"
                    role="status">

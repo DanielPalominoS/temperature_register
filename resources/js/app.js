@@ -21,7 +21,8 @@ Vue.directive('focus', {
 
 //Consts
 //const baseURL = "http://localhost:3004"
-const baseURL = "http://192.168.0.11:3004"
+const baseURL = "http://192.168.0.22:3004"
+//const baseURL = "http://192.168.222.150:5000"
 //const baseURL = "http://192.168.222.150:5000"
 //
 
@@ -34,114 +35,196 @@ const app = new Vue({
         "general_states": {
             "error": 0,
             "waiting": 1,
-            "ok": 2
+            "ok": 2,
+            "high_temperature": 3
         },
         "state": 1,
+        "punto_control_id": 0,
+        "sede": "",
         "user_rfid": "",
         "name": "",
         "user_id": "",
         //"checked": false,
-        "temperature": "",
+        "temp_selector": "3",
+        "temperature": 36,
         "user_exists": true,
+        "ninguno": true,
+        "idnetity_ok": true,
+        "ingreso": true,
+        "fiebre": false,
+        "dolor_garganta": false,
+        "congestion": false,
+        "show_questions": true,
+        "show_id": false,
+        "tos": false,
+        "dificultad_respirar": false,
+        "escalofrio": false,
+        "dolor_musculos": false,
+        "fatiga": false,
+        "live_with_covid": false,
+        "contact_with_covid": false,
         "error_messages": []
     },
     methods: {
-        
+
         /**
          * When user push submit button, this method will be executed
          */
         onFormSubmit: function (submitEvent) {
 
-            // show modal  
-            this.state = this.general_states["waiting"]
+            // show modal
+            if (parseFloat(this.temperature) >= 38.0) {
+                this.state = this.general_states["high_temeperature"]
+            } else {
+                this.state = this.general_states["waiting"]
+            }
+
             $("#waitingModal").modal("show");
 
             try {
-                // validate data                           
-                //validate_data(data)
+
                 if (this.user_exists == false) {
                     //if user does not exist his data is publish to the user db
                     console.log("reg user")
                     this.register_user()
                 }
+                this.temperature=Math.random()
+
+                switch (this.temp_selector) {
+                    case "1":
+                        this.temperature+=34.0
+                        break;
+                    case "2":
+                        this.temperature+=35.0
+                        break;
+                    case "3":
+                        this.temperature+=36.0
+                        break;
+                    case "4":
+                        this.temperature*=0.4
+                        this.temperature+=37.0
+                        break;
+                    case "5":
+                        this.temperature*=0.2
+                        this.temperature+=37.5
+                        break;
+                    case "6":
+                        this.temperature*=0.2
+                        this.temperature+=37.8
+                        break;
+                    case "7":
+                        this.temperature+=38.0
+                        break;
+                    default:
+                        this.temperature+=36.0
+                }
+                this.temperature=this.temperature.toFixed(2)
+
+
+
+                if (this.ingreso == "true") {
+                    this.ingreso = true
+                } else {
+                    this.ingreso = false
+                }
+                if (this.live_with_covid == "true") {
+                    this.live_with_covid = true
+                } else {
+                    this.live_with_covid = false
+                }
+                if (this.contact_with_covid == "true") {
+                    this.contact_with_covid = true
+                } else {
+                    this.contact_with_covid = false
+                }
 
                 // getting data
                 var data = {
-                    "user_id": this.user_id,
-                    "temperature": this.temperature,
-                }
-                var url = baseURL + "/LogTemp"
-                url = settings["url_server"]
-                
-                console.log("publish")
+                    cedula: parseInt(this.user_id),
+                    punto_control_id: parseInt(this.punto_control_id),
+                    temperature: parseFloat(this.temperature),
+                    ingreso: this.ingreso,
+                    fiebre: this.fiebre,
+                    dolor_garganta: this.dolor_garganta,
+                    congestion: this.congestion,
+                    tos: this.tos,
+                    dificultad_respirar: this.dificultad_respirar,
+                    escalofrio: this.escalofrio,
+                    dolor_musculos: this.dolor_musculos,
+                    fatiga: this.fatiga,
+                    vive_covid: this.live_with_covid,
+                    contacto_covid: this.contact_with_covid,
 
+                }
+                // validate data                           
+                //validate_data(data)
+                var url = baseURL + "/LogTemp"
+                //url = settings["url_server"]
+
+                PRINT("publish")
                 // making Post to setted url
                 addTemperature(url, data, this.onResponsePublishTemperature)
                 //addTemperature(settings["url_server"], data, this.onResponsePublishTemperature)
-
-                // redirecting
-                //redirect(settings["redirect"])
 
             } catch (error) {
                 console.log("error")
                 this.onError(error)
             }
 
-            
+
             this.user_rfid = ""
             this.name = ""
             this.user_id = ""
             this.temperature = ""
-            this.user_exists=true
-            //$("#waitingModal").modal("hide");
-            //this.force-this.$forceUpdate()
-            //location.reload()
-            //PRINT("reaload")            
+            this.sede = ""
+            this.user_exists = true
             return false;
         },
 
         /**
-         * Action when ok response
+         * Action when ok reponse for Users
          */
-        onResponseGet: function (response) {
-            //this.state = this.general_states["waiting"]
-            //$("#waitingModal").modal("show");
-            PRINT("response is")
+        onResponseGetUsers: function (response) {
+            PRINT("users response is")
             PRINT(response)
             if (response.data.length == 0) {
                 PRINT("User not registered")
-                //alert("Primero debe registrar su usuario")
                 this.user_exists = false;
+                this.show_id = true;
             }
             else {
                 PRINT("User already registered")
                 this.name = response.data[0].name
                 this.user_id = response.data[0].cedula
-                //this.name = response.data.name                
-                //this.user_id = response.data.cedula
                 this.user_exists = true;
                 PRINT(this.name)
-                PRINT(this.cedula)
-                /*this.$nextTick(() => {
-                    this.$refs.name.$el.focus();
-                    this.$refs.name.$el.select();
-                })*/
+                PRINT(this.user_id)
 
             }
-            //this.state = this.general_states["waiting"]
-            /*setTimeout(function () {
+            setTimeout(function () {
                 $("#waitingModal").modal("hide");
-            }, 300);*/
-            /*PRINT("hide modal")
-            if (this.user_exists) {
-                this.$nextTick(() => {
-                    this.$refs.temperature.$el.focus();
-                    this.$refs.temperature.select();
-                })
-            }*/
+            }, 500);
 
+        },
+        /**
+         * Action when ok response for location
+         */
+        onResponseGetLocation: function (response) {
+            PRINT("location response is")
+            PRINT(response)
+            if (response.data.length == 0) {
+                PRINT("Location not registered")
+                this.user_exists = false;
+            }
+            else {
+                PRINT("Location registered")
+                this.sede = response.data
+                PRINT(this.sede)
 
-            //$("#waitingModal").hide();
+            }
+            setTimeout(function () {
+                $("#waitingModal").modal("hide");
+            }, 500);
 
         },
 
@@ -154,7 +237,7 @@ const app = new Vue({
             PRINT("response for publishing temperature is")
             PRINT(response)
             if (response.data.length == 0) {
-            //if (!response) {
+                //if (!response) {
                 //alert("Primero debe registrar su usuario")
                 PRINT("User could not be added")
             }
@@ -171,7 +254,7 @@ const app = new Vue({
             PRINT("response for publishing new user is")
             PRINT(response)
             if (response.data.length == 0) {
-            //if (!response) {
+                //if (!response) {
                 //alert("Primero debe registrar su usuario")                
                 PRINT("Temperature could not be saved")
             }
@@ -180,7 +263,7 @@ const app = new Vue({
             }
             setTimeout(function () {
                 $("#waitingModal").modal("hide");
-            }, 300);
+            }, 500);
 
         },
 
@@ -197,13 +280,28 @@ const app = new Vue({
         * Action when rfid_id_input change
         */
         verifyUser: function (event) {
+            this.punto_control_id = parseInt(this.sede)
+
             this.state = this.general_states["waiting"]
-            //$("#waitingModal").modal("show");
-            var url = baseURL + "/Users?rfid_id=" + this.user_rfid
-            response_ = this.onResponseGet
+            $("#waitingModal").modal("show");
+
+            var url = baseURL + "/Sedes?id=" + this.punto_control_id
+            response_location = this.onResponseGetLocation
             axios.get(url)
                 .then(function (response) {
-                    response_(response)
+                    response_location(response)
+                })
+                .catch(function (error) {
+                    PRINT("Error on getting location data")
+                    throw (error)
+                })
+
+
+            url = baseURL + "/Users?rfid_id=" + this.user_rfid
+            response_users = this.onResponseGetUsers
+            axios.get(url)
+                .then(function (response) {
+                    response_users(response)
                 })
                 .catch(function (error) {
                     // handle error 
@@ -212,6 +310,8 @@ const app = new Vue({
                     PRINT("Error on getting data")
                     throw (error)
                 })
+
+            PRINT("Data verified")
 
         },
         register_user: function () {
@@ -228,6 +328,18 @@ const app = new Vue({
             // validate data                           
             validate_data_new_user(data)
             addUser(url, data, this.onResponsePublishNewUser)
+        },
+        onSymptomsPicked: function () {
+            this.ninguno = false
+        },
+        onIngresoChange: function () {
+            PRINT(typeof (this.ingreso))
+            if (this.ingreso == "true") {
+                this.show_questions = true
+            } else {
+                this.show_questions = false
+
+            }
         }
 
     }
@@ -243,7 +355,6 @@ const app = new Vue({
  */
 
 validate_data_new_user = function (data_to_validate, invalidDataListener) {
-    
 
     var constraints = {
         "cedula": {
@@ -260,7 +371,7 @@ validate_data_new_user = function (data_to_validate, invalidDataListener) {
                 maximum: 40
             }*/
         }
-        
+
     }
 
     error_message = validate(data_to_validate, constraints);
@@ -274,14 +385,6 @@ validate_data_new_user = function (data_to_validate, invalidDataListener) {
 
 };
 
-/**
- * to redirect
- */
-redirect = function (url) {
-    setTimeout(function () {
-        window.location.replace(url);
-    }, 2000);
-}
 
 /**
  * function to get an url parameter (GET)
