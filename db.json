@@ -66,5 +66,45 @@
       "rfid_id": 765,
       "id": 10
     }
+  ],
+  "Sedes": [
+    {
+      "ciudad": "Bogotá",
+      "nombre": "Calle 72",
+      "id": 1
+    },
+    {
+      "ciudad": "Bogotá",
+      "nombre": "Calle 100",
+      "id": 2
+    },
+    {
+      "ciudad": "Bogotá",
+      "nombre": "Calle 26",
+      "id": 3
+    },
+    {
+      "ciudad": "Bogotá",
+      "nombre": "C.C Zuca",
+      "id": 4
+    },
+    {
+      "ciudad": "Medellin",
+      "nombre": "Punto Clave",
+      "id": 5
+    },
+    {
+      "ciudad": "Barranquilla",
+      "nombre": "Calle 76",
+      "id": 6
+    },
+    {
+      "ciudad": "Bogotá",
+      "nombre": "Carrera 67b",
+      "id": 7
+    }
+  ],
+  "LogTemp":[
+
   ]
 }
