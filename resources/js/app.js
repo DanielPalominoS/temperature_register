@@ -21,7 +21,7 @@ Vue.directive('focus', {
 
 //Consts
 //const baseURL = "http://localhost:3004"
-const baseURL = "http://192.168.0.22:3004"
+const baseURL = "http://192.168.0.14:3004"
 //const baseURL = "http://192.168.222.150:5000"
 //const baseURL = "http://192.168.222.150:5000"
 //
@@ -49,6 +49,7 @@ const app = new Vue({
         "temperature": 36,
         "user_exists": true,
         "ninguno": true,
+        "let_card": false,
         "idnetity_ok": true,
         "ingreso": true,
         "fiebre": false,
@@ -88,6 +89,14 @@ const app = new Vue({
                     console.log("reg user")
                     this.register_user()
                 }
+
+                if(this.idnetity_ok==false){
+                    console.log("reg user")
+                    this.report_user_with_worng_card()
+
+                }
+
+
                 this.temperature=Math.random()
 
                 switch (this.temp_selector) {
@@ -233,7 +242,6 @@ const app = new Vue({
         */
         onResponsePublishNewUser: function (response) {
             // handle success
-            // handle success
             PRINT("response for publishing temperature is")
             PRINT(response)
             if (response.data.length == 0) {
@@ -329,9 +337,26 @@ const app = new Vue({
             validate_data_new_user(data)
             addUser(url, data, this.onResponsePublishNewUser)
         },
+        report_user_with_worng_card: function () {
+
+            //Add input validations
+
+            //fill data if valide
+            this.register_user()
+            url = baseURL + "/Users"
+            data = {
+                name: this.name,
+                cedula: parseInt(this.user_id),
+                rfid_id: parseInt(this.user_rfid)
+            }
+            // validate data                           
+            validate_data_new_user(data)
+            addUser(url, data, this.onResponsePublishNewUser)
+        },
         onSymptomsPicked: function () {
             this.ninguno = false
         },
+        
         onIngresoChange: function () {
             PRINT(typeof (this.ingreso))
             if (this.ingreso == "true") {
@@ -339,6 +364,24 @@ const app = new Vue({
             } else {
                 this.show_questions = false
 
+            }
+        },
+        onLetCardChange: function () {
+            if (this.let_card == true) {
+                this.show_id = true
+                this.name=""
+                this.user_id=""
+            }else{
+                this.show_id = false
+            }
+        },
+        onIdCheckChange: function () {
+            if (this.idnetity_ok == false) {
+                this.show_id = true
+                this.name=""
+                this.user_id=""
+            }else{
+                this.show_id = false
             }
         }
 

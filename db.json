@@ -104,7 +104,23 @@
       "id": 7
     }
   ],
-  "LogTemp":[
-
+  "LogTemp": [
+    {
+      "cedula": 3,
+      "punto_control_id": 1,
+      "temperature": 36.19,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 1
+    }
   ]
 }
