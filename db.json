@@ -4,67 +4,50 @@
       "id": 0,
       "name": "Daniel Palomino",
       "cedula": 0,
-      "rfid_id": 0
+      "rfid_id": 0,
+      "active": true
     },
     {
       "id": 1,
       "name": "Santiago Suarez",
       "cedula": 1,
-      "rfid_id": 1
+      "rfid_id": 1,
+      "active": true
     },
     {
       "name": "nn nn",
       "cedula": 3,
       "rfid_id": 14,
-      "id": 2
+      "id": 2,
+      "active": false
     },
     {
       "name": "agente",
       "cedula": 111,
       "rfid_id": 4190964,
-      "id": 3
+      "id": 3,
+      "active": true
     },
     {
       "name": "aa",
       "cedula": 23,
       "rfid_id": 54,
-      "id": 4
+      "id": 4,
+      "active": true
     },
     {
       "name": "ssss",
       "cedula": 1111,
       "rfid_id": 15,
-      "id": 5
+      "id": 5,
+      "active": true
     },
     {
-      "name": "nn nn",
-      "cedula": 3,
+      "name": "new nn nn",
+      "cedula": 13,
       "rfid_id": 14,
+      "active": true,
       "id": 6
-    },
-    {
-      "name": "Nt",
-      "cedula": 1212,
-      "rfid_id": 78,
-      "id": 7
-    },
-    {
-      "name": "Da",
-      "cedula": 22,
-      "rfid_id": 18,
-      "id": 8
-    },
-    {
-      "name": "",
-      "cedula": null,
-      "rfid_id": null,
-      "id": 9
-    },
-    {
-      "name": "Yy",
-      "cedula": 88,
-      "rfid_id": 765,
-      "id": 10
     }
   ],
   "Sedes": [
@@ -121,6 +104,207 @@
       "vive_covid": false,
       "contacto_covid": false,
       "id": 1
+    },
+    {
+      "cedula": 3,
+      "punto_control_id": 1,
+      "temperature": 37.99,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": true,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 2
+    },
+    {
+      "cedula": 1414,
+      "punto_control_id": 3,
+      "temperature": 34.76,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 3
+    },
+    {
+      "cedula": 3,
+      "punto_control_id": 1,
+      "temperature": 34.03,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 4
+    },
+    {
+      "cedula": 112,
+      "punto_control_id": 1,
+      "temperature": 37.48,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 5
+    },
+    {
+      "cedula": 3,
+      "punto_control_id": 1,
+      "temperature": 34.27,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 6
+    },
+    {
+      "cedula": 112,
+      "punto_control_id": 1,
+      "temperature": 35.73,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 7
+    },
+    {
+      "cedula": 1212,
+      "punto_control_id": 1,
+      "temperature": 34.63,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 8
+    },
+    {
+      "cedula": 1212,
+      "punto_control_id": 1,
+      "temperature": 35.28,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": true,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 9
+    },
+    {
+      "cedula": 1111,
+      "punto_control_id": 4,
+      "temperature": 37.8,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": true,
+      "id": 10
+    },
+    {
+      "cedula": 15,
+      "punto_control_id": 1,
+      "temperature": 35.33,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": true,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 11
+    },
+    {
+      "cedula": 13,
+      "punto_control_id": 1,
+      "temperature": 37.66,
+      "ingreso": false,
+      "fiebre": false,
+      "dolor_garganta": false,
+      "congestion": false,
+      "tos": false,
+      "dificultad_respirar": false,
+      "escalofrio": false,
+      "dolor_musculos": false,
+      "fatiga": false,
+      "vive_covid": false,
+      "contacto_covid": false,
+      "id": 12
+    }
+  ],
+  "WrongRfidUsers": [
+    {
+      "name": "p s",
+      "cedula": 15,
+      "rfid_id": 1,
+      "id": 1
+    },
+    {
+      "name": "new nn nn",
+      "cedula": 13,
+      "rfid_id": 14,
+      "id": 2
     }
   ]
 }

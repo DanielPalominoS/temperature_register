@@ -21,7 +21,7 @@ Vue.directive('focus', {
 
 //Consts
 //const baseURL = "http://localhost:3004"
-const baseURL = "http://192.168.0.14:3004"
+const baseURL = "http://192.168.0.5:3004"
 //const baseURL = "http://192.168.222.150:5000"
 //const baseURL = "http://192.168.222.150:5000"
 //
@@ -64,6 +64,7 @@ const app = new Vue({
         "fatiga": false,
         "live_with_covid": false,
         "contact_with_covid": false,
+        "databse_id": -1,
         "error_messages": []
     },
     methods: {
@@ -87,47 +88,47 @@ const app = new Vue({
                 if (this.user_exists == false) {
                     //if user does not exist his data is publish to the user db
                     console.log("reg user")
-                    this.register_user()
+                    this.registerUser()
                 }
 
-                if(this.idnetity_ok==false){
-                    console.log("reg user")
-                    this.report_user_with_worng_card()
+                if (this.idnetity_ok == false) {
+                    console.log("wrong rfid assignation")
+                    this.reportUserWithWrongCard()
 
                 }
 
 
-                this.temperature=Math.random()
+                this.temperature = Math.random()
 
                 switch (this.temp_selector) {
                     case "1":
-                        this.temperature+=34.0
+                        this.temperature += 34.0
                         break;
                     case "2":
-                        this.temperature+=35.0
+                        this.temperature += 35.0
                         break;
                     case "3":
-                        this.temperature+=36.0
+                        this.temperature += 36.0
                         break;
                     case "4":
-                        this.temperature*=0.4
-                        this.temperature+=37.0
+                        this.temperature *= 0.4
+                        this.temperature += 37.0
                         break;
                     case "5":
-                        this.temperature*=0.2
-                        this.temperature+=37.5
+                        this.temperature *= 0.2
+                        this.temperature += 37.5
                         break;
                     case "6":
-                        this.temperature*=0.2
-                        this.temperature+=37.8
+                        this.temperature *= 0.2
+                        this.temperature += 37.8
                         break;
                     case "7":
-                        this.temperature+=38.0
+                        this.temperature += 38.0
                         break;
                     default:
-                        this.temperature+=36.0
+                        this.temperature += 36.0
                 }
-                this.temperature=this.temperature.toFixed(2)
+                this.temperature = this.temperature.toFixed(2)
 
 
 
@@ -168,7 +169,6 @@ const app = new Vue({
                 // validate data                           
                 //validate_data(data)
                 var url = baseURL + "/LogTemp"
-                //url = settings["url_server"]
 
                 PRINT("publish")
                 // making Post to setted url
@@ -206,6 +206,7 @@ const app = new Vue({
                 this.name = response.data[0].name
                 this.user_id = response.data[0].cedula
                 this.user_exists = true;
+                this.databse_id = response.data[0].id
                 PRINT(this.name)
                 PRINT(this.user_id)
 
@@ -259,7 +260,7 @@ const app = new Vue({
             * Action when ok response
             */
         onResponsePublishTemperature: function (response) {
-            PRINT("response for publishing new user is")
+            PRINT("response for publishing temperature is")
             PRINT(response)
             if (response.data.length == 0) {
                 //if (!response) {
@@ -268,6 +269,26 @@ const app = new Vue({
             }
             else {
                 PRINT("Temperature saved")
+            }
+            setTimeout(function () {
+                $("#waitingModal").modal("hide");
+            }, 500);
+
+        },
+
+        /**
+            * Action when ok response
+            */
+        onResponseModifyUser: function (response) {
+            PRINT("response for modifying user is")
+            PRINT(response)
+            if (response.data.length == 0) {
+                //if (!response) {
+                //alert("Primero debe registrar su usuario")                
+
+            }
+            else {
+                PRINT("User succesfully modified")
             }
             setTimeout(function () {
                 $("#waitingModal").modal("hide");
@@ -305,7 +326,8 @@ const app = new Vue({
                 })
 
 
-            url = baseURL + "/Users?rfid_id=" + this.user_rfid
+            url = baseURL + "/Users?rfid_id=" + this.user_rfid +
+                "&active=true"
             response_users = this.onResponseGetUsers
             axios.get(url)
                 .then(function (response) {
@@ -322,7 +344,7 @@ const app = new Vue({
             PRINT("Data verified")
 
         },
-        register_user: function () {
+        registerUser: function () {
 
             //Add input validations
 
@@ -331,32 +353,37 @@ const app = new Vue({
             data = {
                 name: this.name,
                 cedula: parseInt(this.user_id),
-                rfid_id: parseInt(this.user_rfid)
+                rfid_id: parseInt(this.user_rfid),
+                active: true
             }
             // validate data                           
             validate_data_new_user(data)
             addUser(url, data, this.onResponsePublishNewUser)
         },
-        report_user_with_worng_card: function () {
+        reportUserWithWrongCard: function () {
 
-            //Add input validations
+            //Add input validations            
 
             //fill data if valide
-            this.register_user()
-            url = baseURL + "/Users"
+            url = baseURL + "/Users/" + this.databse_id
+            data = {
+                active: false
+            }
+            modifyUser(url, data, this.onResponseModifyUser)
+            this.registerUser();
+            url = url = baseURL + "/WrongRfidUsers/"
             data = {
                 name: this.name,
                 cedula: parseInt(this.user_id),
                 rfid_id: parseInt(this.user_rfid)
             }
-            // validate data                           
-            validate_data_new_user(data)
             addUser(url, data, this.onResponsePublishNewUser)
+
         },
         onSymptomsPicked: function () {
             this.ninguno = false
         },
-        
+
         onIngresoChange: function () {
             PRINT(typeof (this.ingreso))
             if (this.ingreso == "true") {
@@ -369,18 +396,18 @@ const app = new Vue({
         onLetCardChange: function () {
             if (this.let_card == true) {
                 this.show_id = true
-                this.name=""
-                this.user_id=""
-            }else{
+                this.name = ""
+                this.user_id = ""
+            } else {
                 this.show_id = false
             }
         },
         onIdCheckChange: function () {
             if (this.idnetity_ok == false) {
                 this.show_id = true
-                this.name=""
-                this.user_id=""
-            }else{
+                this.name = ""
+                this.user_id = ""
+            } else {
                 this.show_id = false
             }
         }
@@ -473,6 +500,28 @@ addUser = function (url, data, onResponseListener) {
         PRINT(e)
     }
 }
+
+
+/**
+ * helper to make post new user to setted url
+ * usign axios library https://github.com/axios/axios
+ */
+modifyUser = function (url, data, onResponseListener) {
+    try {
+        axios.patch(url, data)
+            .then(function (response) {
+                onResponseListener(response)
+            }).catch(function (error) {
+                // handle error 
+                throw (error)
+            })
+    } catch (e) {
+        PRINT(e)
+    }
+}
+
+
+
 
 /**
  * For debuging
