@@ -163,6 +163,7 @@
               <legend class="col-form-label col-sm-12 pt-0 font-weight-bold">Seleccione el rango de temperartura.
               </legend>
               <div class="row">
+                
                 <!--col1-->
                 <div class="col text-left">
                   <div class="form-check form-check-inline">
@@ -173,17 +174,7 @@
                            value="1"
                            v-model="temp_selector">
                     <label class="form-check-label"
-                           for="temp_selectorRadio1">34.0-34.9</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input"
-                           type="radio"
-                           name="temp_selection"
-                           id="temp_selectorRadio4"
-                           value="4"
-                           v-model="temp_selector">
-                    <label class="form-check-label"
-                           for="temp_selectorRadio4">37.0-37.4</label>
+                           for="temp_selectorRadio1">Adecuada</label>
                   </div>
                 </div>
                 <!--col2-->
@@ -197,30 +188,8 @@
                            value="2"
                            v-model="temp_selector">
                     <label class="form-check-label"
-                           for="temp_selectorRadio2">35.0-35.9</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input"
-                           type="radio"
-                           name="temp_selection"
-                           id="temp_selectorRadio5"
-                           value="5"
-                           v-model="temp_selector">
-                    <label class="form-check-label"
-                           for="temp_selectorRadio5">37.5-37.7</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input"
-                           type="radio"
-                           name="temp_selection"
-                           id="temp_selectorRadio5"
-                           value="5"
-                           v-model="temp_selector">
-                    <label class="form-check-label"
-                           for="temp_selectorRadio5">38.0+</label>
-                  </div>
-
-
+                           for="temp_selectorRadio2">Alerta</label>
+                  </div>                  
                 </div>
 
                 <!--col3-->
@@ -233,26 +202,11 @@
                            value="3"
                            v-model="temp_selector">
                     <label class="form-check-label"
-                           for="temp_selectorRadio3">36.0-36.9</label>
-                  </div>
-
-
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input"
-                           type="radio"
-                           name="temp_selection"
-                           id="temp_selectorRadio6"
-                           value="6"
-                           v-model="temp_selector">
-                    <label class="form-check-label"
-                           for="temp_selectorRadio6">37.8-37.9</label>
+                           for="temp_selectorRadio3">Fiebre</label>
                   </div>
                 </div>
               </div>
-            </div>           
-
-
-            
+            </div>  
 
             <!-- Sintomas -->
             <div class="input group form-group ">
