@@ -21,9 +21,9 @@ Vue.directive('focus', {
 
 //Consts
 //const baseURL = "http://localhost:3004"
-const baseURL = "http://192.168.0.5:3004"
+//const baseURL = "http://192.168.0.8:3004"
 //const baseURL = "http://192.168.222.150:5000"
-//const baseURL = "http://192.168.222.150:5000"
+const baseURL = "http://192.168.222.150:6000"
 //
 
 // Implementing Vue JS
@@ -65,6 +65,7 @@ const app = new Vue({
         "live_with_covid": false,
         "contact_with_covid": false,
         "databse_id": -1,
+        "swapped_cedula": -1,
         "error_messages": []
     },
     methods: {
@@ -243,7 +244,7 @@ const app = new Vue({
         */
         onResponsePublishNewUser: function (response) {
             // handle success
-            PRINT("response for publishing temperature is")
+            PRINT("response for publishing new user is")
             PRINT(response)
             if (response.data.length == 0) {
                 //if (!response) {
@@ -365,18 +366,20 @@ const app = new Vue({
             //Add input validations            
 
             //fill data if valide
-            url = baseURL + "/Users/" + this.databse_id
+            /*url = baseURL + "/Users/" + this.databse_id
             data = {
                 active: false
             }
             modifyUser(url, data, this.onResponseModifyUser)
-            this.registerUser();
-            url = url = baseURL + "/WrongRfidUsers/"
+            this.registerUser();*/
+            url = url = baseURL + "/WrongRfidUsers"
             data = {
                 name: this.name,
                 cedula: parseInt(this.user_id),
-                rfid_id: parseInt(this.user_rfid)
+                rfid_id: parseInt(this.user_rfid),
+                swapped_cedula: this.swapped_cedula
             }
+            PRINT(data)
             addUser(url, data, this.onResponsePublishNewUser)
 
         },
@@ -405,6 +408,7 @@ const app = new Vue({
         onIdCheckChange: function () {
             if (this.idnetity_ok == false) {
                 this.show_id = true
+                this.swapped_cedula=parseInt(this.user_id)
                 this.name = ""
                 this.user_id = ""
             } else {
