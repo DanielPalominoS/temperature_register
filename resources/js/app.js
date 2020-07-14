@@ -1,6 +1,7 @@
 /**
  * Main script on js
  *
+ * @author Daniel Palomino
  * @author Camilo Gomez
  */
 
@@ -21,8 +22,8 @@ Vue.directive('focus', {
 
 //Consts
 //const baseURL = "http://localhost:3004"
-const baseURL = "http://192.168.0.5:3004"
-//const baseURL = "http://192.168.222.150:5000"
+//const baseURL = "http://192.168.0.5:3004"
+const baseURL = "http://192.168.222.150:5001"
 //const baseURL = "http://192.168.222.150:5000"
 //
 
@@ -172,6 +173,7 @@ const app = new Vue({
             this.temperature = ""
             this.sede = ""
             this.user_exists = true
+            location.reload()
             return false;
         },
 
@@ -350,18 +352,15 @@ const app = new Vue({
             //Add input validations            
 
             //fill data if valide
-            url = baseURL + "/Users/"+this.databse_id
-            data = {
-                active: false
-            }
-            modifyUser(url, data, this.onResponseModifyUser)
-            this.registerUser();
-            url = url = baseURL + "/WrongRfidUsers/"
+
+            url = url = baseURL + "/WrongRfidUsers"
             data = {
                 name: this.name,
                 cedula: parseInt(this.user_id),
-                rfid_id: parseInt(this.user_rfid)
+                rfid_id: parseInt(this.user_rfid),
+                swapped_cedula: this.swapped_cedula
             }
+            PRINT(data)
             addUser(url, data, this.onResponsePublishNewUser)
 
         },
@@ -390,9 +389,10 @@ const app = new Vue({
         onIdCheckChange: function () {
             if (this.idnetity_ok == false) {
                 this.show_id = true
-                this.name=""
-                this.user_id=""
-            }else{
+                this.swapped_cedula = parseInt(this.user_id)
+                this.name = ""
+                this.user_id = ""
+            } else {
                 this.show_id = false
             }
         }
