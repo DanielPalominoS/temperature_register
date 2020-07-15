@@ -19,7 +19,10 @@ mix.js('resources/js/app.js', 'public/js')
 mix.js('resources/js/app.js', 'public_html/js')
    .sass('resources/sass/app.scss', 'public_html/css');*/
    
-var browserSync = require("browser-sync").create();
+/*var browserSync = require("browser-sync").create();
 browserSync.init({
     server: './public', watch: true 
-   });
+   });*/
+
+
+   
