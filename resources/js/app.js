@@ -58,6 +58,7 @@ const app = new Vue({
         "congestion": false,
         "show_questions": true,
         "show_id": false,
+        "show_field":false,
         "tos": false,
         "dificultad_respirar": false,
         "escalofrio": false,

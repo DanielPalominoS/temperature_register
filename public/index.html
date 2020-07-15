@@ -57,7 +57,8 @@
                 v-on:submit.prevent="onFormSubmit">
 
             <!-- Sede-->
-            <div class="input-group form-group ">
+            <div class="input-group form-group "
+              v-if="show_field">
               <input v-focus
                      v-model="sede"
                      ref="sede"
@@ -68,7 +69,8 @@
             </div>
 
             <!-- Rfid Id -->
-            <div class="input-group form-group ">
+            <div class="input-group form-group "
+              v-if="show_field">
               <input v-model="user_rfid"
                      ref="user_rfid"
                      type="numeric"
@@ -80,25 +82,25 @@
             <!-- Register data -->
             <div id="register_inputs">
               <div class="input-group form-group ">
+                <input v-model="user_id" type="numeric" class="form-control" placeholder="Documento de identidad" required>
+              </div>
+
+
+              <div class="input-group form-group ">
                 <input id="reg_name"
                        v-model="name"
                        type="text"
                        class="form-control"
                        placeholder="Nombre"
-                       required> </div>
-
-              <div class="input-group form-group "
-                   v-if="show_id">
-                <input v-model="user_id"
-                       type="numeric"
-                       class="form-control"
-                       placeholder="Documento de identidad"
-                       required>
+                       required> 
               </div>
+
+              
             </div>
 
             <!-- Check identity -->
-            <div class="form-check ">
+            <div class="form-check "
+              v-if="show_field">
               <input class="form-check-input"
                      type="checkbox"
                      id="let_card"
@@ -109,7 +111,8 @@
                      for="let_card">Dejo tarjeta</label>
             </div>
 
-            <div class="form-check ">
+            <div class="form-check "
+              v-if="show_field">
               <input class="form-check-input"
                      type="checkbox"
                      id="idnetity_ok"
