@@ -20,10 +20,7 @@ Vue.directive('focus', {
 })
 
 //Consts
-//const baseURL = "http://localhost:3004"
-//const baseURL = "http://192.168.0.8:3004"
-//const baseURL = "http://192.168.222.150:5000"
-const baseURL = "http://192.168.222.150:5001"
+const baseURL = "http://192.168.222.178:5001"
 //
 
 // Implementing Vue JS
