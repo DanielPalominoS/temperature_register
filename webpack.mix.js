@@ -23,9 +23,6 @@ mix.js('resources/js/app.js', 'public_html/js')
 browserSync.init({
     server: './public', watch: true 
    });*/
-<<<<<<< HEAD
 
 
    
-=======
->>>>>>> test_v2
